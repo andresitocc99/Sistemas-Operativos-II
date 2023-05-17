@@ -177,18 +177,6 @@ void create_threads(std::string file, Client& c, std::mutex& access_balance, std
     print_result(vWords, c,std::ref(access_log));
 }
 
-void divide_and_lookfor (std::vector<std::thread> &vThreads, int &begin, int &end, int &number_lines, int size_threads, std::map<int, std::vector<std::string>> assignedLines, Client& c, std::mutex& access_balance, std::mutex& access_result, std::map<int,std::vector<WordSearched>>& vWords) {
-    for (int i = 0; i < NTHREADS; i++) {
-        begin=i*size_threads+1;
-        end=begin+size_threads-1;
-
-        if(number_lines%NTHREADS!= 0 && i==NTHREADS-1){ //Aquí se realiza un ajuste para el ultimo hilo en el caso que no sea exacta la división de total de lineas entre el número de hilos.
-            end = number_lines;
-        }
-        vThreads.push_back(std::thread(find_word, i, assignedLines[i], begin, end, std::ref(c), std::ref(access_balance), std::ref(access_result), std::ref(vWords)));
-    }
-}
-
 /* Devuelve el número de lineas de un archivo.*/
 int number_of_lines(std::string file){
     int numLines = 0;
@@ -202,6 +190,39 @@ int number_of_lines(std::string file){
         ++numLines; 
     } 
     return numLines;
+}
+
+/* Asignara a cada hilo el número correspondiente de linea a leer*/
+std::map<int,std::vector<std::string>> shareLines(std::string file, int nLines, int sizeOfThreads){
+    std::ifstream File("./libros/"+file);
+    std::string line;
+    std::map<int, std::vector<std::string>> result;
+    for(int i = 0; i < NTHREADS; i++){
+        for (int j = 0; j < sizeOfThreads; j++){
+            std::getline(File, line);
+            result[i].push_back(line);
+        }
+        if(i==NTHREADS-1 && nLines % NTHREADS!= 0){
+                for (int k = sizeOfThreads * NTHREADS; k < nLines; k++) {
+                    std::getline(File, line);
+                    result[i].push_back(line);
+                }
+                
+            }
+    }
+    return result;   
+}
+
+void divide_and_lookfor (std::vector<std::thread> &vThreads, int &begin, int &end, int &number_lines, int size_threads, std::map<int, std::vector<std::string>> assignedLines, Client& c, std::mutex& access_balance, std::mutex& access_result, std::map<int,std::vector<WordSearched>>& vWords) {
+    for (int i = 0; i < NTHREADS; i++) {
+        begin=i*size_threads+1;
+        end=begin+size_threads-1;
+
+        if(number_lines%NTHREADS!= 0 && i==NTHREADS-1){ //Aquí se realiza un ajuste para el ultimo hilo en el caso que no sea exacta la división de total de lineas entre el número de hilos.
+            end = number_lines;
+        }
+        vThreads.push_back(std::thread(find_word, i, assignedLines[i], begin, end, std::ref(c), std::ref(access_balance), std::ref(access_result), std::ref(vWords)));
+    }
 }
 
 /* Es la función que ejecutaran los hilos y buscaran la palabra objetivo en el trozo de lineas asignado*/
@@ -260,16 +281,6 @@ void find_word(int thread,std::vector<std::string> assignedLines, int begin, int
     }
 }
 
-/* Se encarga de formatear una palabra para compararla con la con la palabra objetivo*/
-std::string analize_word(std::string word){
-    std::string result;
-    for (std::size_t i = 0; i < word.length(); i++) { //Esto sera para pasarlos a minuscula
-        word[i] = tolower(word[i]);
-    }
-    std::remove_copy_if(word.begin(), word.end(), std::back_inserter(result), std::ptr_fun<int, int>(&std::ispunct));//Y esto para eliminar simbilos que no sean letras
-    return result;
-}
-
 /* Devolvera una linea en un vector para recorrerla sin espacios*/
 std::vector<std::string> splitLine(std::string line){
     std::string word;
@@ -281,26 +292,16 @@ std::vector<std::string> splitLine(std::string line){
     return result;
 }
 
-/* Asignara a cada hilo el número correspondiente de linea a leer*/
-std::map<int,std::vector<std::string>> shareLines(std::string file, int nLines, int sizeOfThreads){
-    std::ifstream File("./libros/"+file);
-    std::string line;
-    std::map<int, std::vector<std::string>> result;
-    for(int i = 0; i < NTHREADS; i++){
-        for (int j = 0; j < sizeOfThreads; j++){
-            std::getline(File, line);
-            result[i].push_back(line);
-        }
-        if(i==NTHREADS-1 && nLines % NTHREADS!= 0){
-                for (int k = sizeOfThreads * NTHREADS; k < nLines; k++) {
-                    std::getline(File, line);
-                    result[i].push_back(line);
-                }
-                
-            }
+/* Se encarga de formatear una palabra para compararla con la con la palabra objetivo*/
+std::string analize_word(std::string word){
+    std::string result;
+    for (std::size_t i = 0; i < word.length(); i++) { //Esto sera para pasarlos a minuscula
+        word[i] = tolower(word[i]);
     }
-    return result;   
+    std::remove_copy_if(word.begin(), word.end(), std::back_inserter(result), std::ptr_fun<int, int>(&std::ispunct));//Y esto para eliminar simbilos que no sean letras
+    return result;
 }
+
 /* Almacenamo la información de los clientes en su correspondiente log*/
 void print_result(std::map<int,std::vector<WordSearched>> vWords, Client c, std::mutex& access_log){
     for (std::size_t i = 0; i < vWords.size(); i++){
