@@ -39,11 +39,11 @@ class Client{
         bool isPremium();
         void payCredit();
         void restoreCredits(int credits);
-        void writeLog(std::string& msg);            // 'std::string&' is used to avoid unnecessary copies
+        void writeLog(std::string msg);
         void setExecutionTime(float time);
 };
 Client::~Client(){}
-Client::Client(int id, std::string& objective, int balance, int premium){
+Client::Client(int id, std::string objective, int balance, int premium){
     this->id=id;
     this->path="./log/Client_"+std::to_string(this->id)+".txt";
     this->init_balance=this->balance;
@@ -106,15 +106,12 @@ void Client::toString(){
 }
 
 /*Funcion para almacenar informacion en el log del cliente correspondiente*/
-
-void Client::writeLog(const std::string& msg) {
-    std::ofstream fd(this->path, std::fstream::app);
-    if (fd.is_open()) {
-        fd << msg;
-        fd.close();
-    } else {
-        std::cout << "No se pudo abrir el archivo de registro: " << this->path << std::endl;
-    }
+void Client::writeLog(std::string msg){
+    std::ofstream fd;
+    fd.open(this->path.c_str(),std::fstream::app);
+    fd << "";
+    fd << msg;
+    fd.close();
 }
 
 #endif

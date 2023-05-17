@@ -13,7 +13,6 @@
 #include <iostream>
 #include <fstream>
 #include <cctype>
-#include <fstream>
 #include <regex>
 #include <filesystem>
 #include <vector>
@@ -31,7 +30,7 @@
 #include <chrono>
 #include <signal.h>
 #include <exception>
-#include "WordSearched.cpp"
+#include "wordSearched.cpp"
 #include "Client.cpp"
 #include "PaySystem.cpp"
 #include "QueueProtected.cpp"
@@ -50,7 +49,7 @@ void list_dir();
 void create_log(int i);
 void generateClient(Client c);
 void free_resources();
-void divide_and_lookfor (int &begin, int &end, int &number_lines, int &size_threads, std::map<int, std::vector<std::string>> assignedLines, Client& c, std::mutex& access_balance, std::map<int,std::vector<WordSearched>> vWords);
+void divide_and_lookfor (std::vector<std::thread> &vThreads, int &begin, int &end, int &number_lines, int size_threads, std::map<int, std::vector<std::string>> assignedLines, Client& c, std::mutex& access_balance, std::mutex& access_result, std::map<int, std::vector<WordSearched>>& vWords);
 
 std::map<int, std::vector<std::string>> shareLines(std::string file, int nLines, int sizeOfThreads);
 std::vector<std::string> splitLine(std::string line);
@@ -172,19 +171,19 @@ void create_threads(std::string file, Client& c, std::mutex& access_balance, std
     sizeForThreads = nLines/NTHREADS;
     assignedLines=shareLines(file,nLines,sizeForThreads);
 
-    divide_and_lookfor(begin, end, nLines, sizeForThreads, assignedLines, c, access_balance, access_result, vWords);
+    divide_and_lookfor(vThreads, begin, end, nLines, sizeForThreads, assignedLines, c, access_balance, access_result, vWords);
 
     std::for_each(vThreads.begin(), vThreads.end(), std::mem_fn(&std::thread::join));
     print_result(vWords, c,std::ref(access_log));
 }
 
-void divide_and_lookfor (int &begin, int &end, int &number_lines, int &size_threads, std::map<int, std::vector<std::string>> assignedLines, Client& c, std::mutex& access_balance, std::map<int,std::vector<WordSearched>> vWords) {
+void divide_and_lookfor (std::vector<std::thread> &vThreads, int &begin, int &end, int &number_lines, int size_threads, std::map<int, std::vector<std::string>> assignedLines, Client& c, std::mutex& access_balance, std::mutex& access_result, std::map<int,std::vector<WordSearched>>& vWords) {
     for (int i = 0; i < NTHREADS; i++) {
-        begin=i*sizeForThreads+1;
-        end=begin+sizeForThreads-1;
+        begin=i*size_threads+1;
+        end=begin+size_threads-1;
 
-        if(nLines%NTHREADS!= 0 && i==NTHREADS-1){ //Aquí se realiza un ajuste para el ultimo hilo en el caso que no sea exacta la división de total de lineas entre el número de hilos.
-            end = nLines;
+        if(number_lines%NTHREADS!= 0 && i==NTHREADS-1){ //Aquí se realiza un ajuste para el ultimo hilo en el caso que no sea exacta la división de total de lineas entre el número de hilos.
+            end = number_lines;
         }
         vThreads.push_back(std::thread(find_word, i, assignedLines[i], begin, end, std::ref(c), std::ref(access_balance), std::ref(access_result), std::ref(vWords)));
     }
