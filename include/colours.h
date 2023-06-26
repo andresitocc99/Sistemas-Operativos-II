@@ -10,6 +10,7 @@
 #define CIAN  "\x1B[36m"
 #define WHITE  "\x1B[37m"
 #define ULINE  "\x1B[4m"
+#define ORANGE  "\x1B[38;2;255;128;0m"
 
 
 #define ERROR(x) RED x RESET

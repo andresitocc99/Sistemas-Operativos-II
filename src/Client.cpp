@@ -29,9 +29,8 @@ class Client{
         std::string path;
     
     public:
-        Client(int id, std::string objective, int balance, int premium);
-        ~Client();
-        void toString();
+    
+        Client(int id, bool premium, int balance, bool ilimited, std::string objective);
         int getId();
         int getBalance();
         int getInitialBalance();
@@ -41,24 +40,20 @@ class Client{
         void restoreCredits(int credits);
         void writeLog(std::string msg);
         void setExecutionTime(float time);
+        void toString();
 };
-Client::~Client(){}
-Client::Client(int id, std::string objective, int balance, int premium){
-    this->id=id;
+
+Client::Client(int id, bool premium, int balance, bool ilimited, std::string objective) {
+    this->id = id;
     this->path="./log/Client_"+std::to_string(this->id)+".txt";
-    this->init_balance=this->balance;
+    this-> premium = premium;
+    this->init_balance = this->balance;
     this->objective = objective;
-    this->premium = premium;
-    if(premium){
-        if(rand()%2==0){
-            this->balance=-1;
-        }else{
-            this->balance=balance;
-        }
-    }else{
-        this->balance=5;
+    if (ilimited == true) {
+        this->balance = -1;
+    } else {
+        this-> balance = balance;
     }
-    toString();
 }
 
 int Client::getId(){

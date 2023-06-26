@@ -1,3 +1,3 @@
-[Cliente 7]:: Cuenta: Gratis :: Palabra: lineas :: Saldo:5
+[Cliente 7]:: Cuenta: Premium :: Palabra: lineas :: Saldo: UNLIMITED
 [Hilo 1 inicio: 3264 – final: 6526] :: línea 3785:: ... las lineas de ...
-Tiempo de ejecución total: 3.601906 segundos.
+Tiempo de ejecución total: 1.912016 segundos.
