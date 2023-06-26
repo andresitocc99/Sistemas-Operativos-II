@@ -32,6 +32,7 @@
 #include "wordSearched.cpp"
 #include "Client.cpp"
 #include "PaySystem.cpp"
+#include <future>
 
 /*Manejador de señal*/
 void signal_handler(int signal);
@@ -80,11 +81,10 @@ int main(int argc, char *argv[]){
 
     install_handler();
     list_dir();
-    std::thread pay(&PaySystem::constant_check, &paysystem);
     srand(time(NULL));
     create_clients();       // METHOD THAT CREATE CLIENTS
     free_resources();
-    pay.join();
+    
     return 0;
 }
 
@@ -308,12 +308,16 @@ void find_word(int thread,std::vector<std::string> assignedLines, int begin, int
                     } else if(c.getBalance()==0 && c.isPremium()){
                         std::cout<<YELLOW<<"[Cliente "<<RED<<c.getId()<<YELLOW<<"] "<<MAGENTA<<"se quedo sin saldo. Esperando a que PaySystem lo atienda..."<<RESET<<std::endl;
                         std::unique_lock<std::mutex> ul(mutex_queue);
-                        std::thread payment_thread (&PaySystem::add_payment, &paysystem, c.getId(), c.getBalance());
+                        std::promise<void> paymentDone;
+                        std::future<void> paymentFuture = paymentDone.get_future();
+                        std::thread payment_thread (&PaySystem::add_payment, &paysystem, c.getId(), c.getBalance(), std::move(paymentDone));
+                        std::thread pay(&PaySystem::constant_check, &paysystem, std::move(paymentFuture));
                         payment_thread.join();
+                        pay.join();
 
-                        cv_paysystem.wait(ul,[&c]{
+                        /*cv_paysystem.wait(ul,[&c]{
                             return c.getId()==payment_id;
-                        });
+                        });*/
                         std::cout << GREEN << "[Cliente_" << c.getId() << "] Ha realizado un pago de 100 creditos." << RESET << std::endl;
                         c.restoreCredits(credits);
                         payment_id = -1;
