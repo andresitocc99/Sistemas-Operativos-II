@@ -1,0 +1,96 @@
+Proceso A finalizado. Directorios creados correctamente 
+Proceso B finalizado. Modelos de examen copiados correctamente 
+Proceso C finalizado. Creados archivos con los cortes de nota 
+Proceso A finalizado. Directorios creados correctamente 
+Proceso B finalizado. Modelos de examen copiados correctamente 
+Proceso C finalizado. Creados archivos con los cortes de nota 
+Proceso A finalizado. Directorios creados correctamente 
+Proceso B finalizado. Modelos de examen copiados correctamente 
+Proceso C finalizado. Creados archivos con los cortes de nota 
+Proceso A finalizado. Directorios creados correctamente 
+Proceso B finalizado. Modelos de examen copiados correctamente 
+Proceso C finalizado. Creados archivos con los cortes de nota 
+Proceso A finalizado. Directorios creados correctamente 
+Proceso B finalizado. Modelos de examen copiados correctamente 
+Proceso C finalizado. Creados archivos con los cortes de nota 
+Proceso A finalizado. Directorios creados correctamente 
+Proceso B finalizado. Modelos de examen copiados correctamente 
+Proceso C finalizado. Creados archivos con los cortes de nota 
+Proceso A finalizado. Directorios creados correctamente 
+Proceso B finalizado. Modelos de examen copiados correctamente 
+Proceso C finalizado. Creados archivos con los cortes de nota 
+Proceso A finalizado. Directorios creados correctamente 
+Proceso B finalizado. Modelos de examen copiados correctamente 
+Proceso C finalizado. Creados archivos con los cortes de nota 
+Proceso D finalizado. Proceos interrumpido 
+ 
+FIN 
+Proceso A finalizado. Directorios creados correctamente 
+Proceso B finalizado. Modelos de examen copiados correctamente 
+Proceso C finalizado. Creados archivos con los cortes de nota 
+Proceso D finalizado. Proceos interrumpido 
+ 
+FIN 
+Proceso A finalizado. Directorios creados correctamente 
+Proceso B finalizado. Modelos de examen copiados correctamente 
+Proceso C finalizado. Creados archivos con los cortes de nota 
+Proceso D finalizado. Proceos interrumpido 
+ 
+FIN 
+Proceso A finalizado. Directorios creados correctamente 
+Proceso B finalizado. Modelos de examen copiados correctamente 
+Proceso C finalizado. Creados archivos con los cortes de nota 
+Proceso A finalizado. Directorios creados correctamente 
+Proceso B finalizado. Modelos de examen copiados correctamente 
+Proceso C finalizado. Creados archivos con los cortes de nota 
+Proceso D finalizado. Proceos interrumpido 
+ 
+FIN 
+Proceso A finalizado. Directorios creados correctamente 
+Proceso C finalizado. Creados archivos con los cortes de nota 
+Proceso B finalizado. Modelos de examen copiados correctamente 
+Proceso D finalizado. Proceos interrumpido 
+ 
+FIN 
+Proceso A finalizado. Directorios creados correctamente 
+Proceso C finalizado. Creados archivos con los cortes de nota 
+Proceso B finalizado. Modelos de examen copiados correctamente 
+Proceso D finalizado. Proceos interrumpido 
+ 
+FIN 
+Proceso A finalizado. Directorios creados correctamente 
+Proceso B finalizado. Modelos de examen copiados correctamente 
+Proceso C finalizado. Creados archivos con los cortes de nota 
+Proceso D finalizado. Proceos interrumpido 
+ 
+FIN 
+Proceso A finalizado. Directorios creados correctamente 
+Proceso C finalizado. Creados archivos con los cortes de nota 
+Proceso B finalizado. Modelos de examen copiados correctamente 
+Proceso D finalizado. Proceos interrumpido 
+ 
+FIN 
+Proceso A finalizado. Directorios creados correctamente 
+Proceso B finalizado. Modelos de examen copiados correctamente 
+Proceso C finalizado. Creados archivos con los cortes de nota 
+Proceso D finalizado. Proceos interrumpido 
+ 
+FIN 
+Creación de directorios finalizada. 
+Copia de modelos de examen, finalizada. 
+Creación de archivos con nota necesaria para alcanzar la nota de corte, finalizada. 
+Proceso interrumpido eliminando directorio 
+ 
+FIN 
+Creación de directorios finalizada. 
+Creación de archivos con nota necesaria para alcanzar la nota de corte, finalizada. 
+Copia de modelos de examen, finalizada. 
+Proceso interrumpido eliminando directorio 
+ 
+FIN 
+Creación de directorios finalizada. 
+Copia de modelos de examen, finalizada. 
+Creación de archivos con nota necesaria para alcanzar la nota de corte, finalizada. 
+Proceso interrumpido eliminando directorio 
+ 
+FIN 
